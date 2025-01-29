@@ -11,11 +11,11 @@ import m6 from '@/assets/images/m6.jpg';
 const images = [m1, m2, m3, m4, m5, m6];
 ---
 
-<div class="image-gallery">
-  <div class="flex gap-2 flex-wrap items-center justify-center">
+<div class="image-gallery z-0 flex items-center justify-center">
+  <div class="grid md:grid-cols-3 gap-4">
     {images.map((img, index) => (
       <Image 
-        class="imgItem w-sm size-28 h-full cursor-pointer transition-transform hover:scale-105" 
+        class="imgItem w-sm size-40 h-full cursor-pointer transition-transform hover:scale-105" 
         src={img || "/placeholder.svg"} 
         alt={`movie poster ${index + 1}`}
         data-index={index}
@@ -25,7 +25,7 @@ const images = [m1, m2, m3, m4, m5, m6];
 
   <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 hidden z-50">
     <div class="relative w-full h-full flex items-center justify-center">
-      <button id="closeModal" class="fixed top-4 right-4 bg-white rounded-full p-2 text-black hover:bg-gray-200 transition-colors z-60">
+      <button id="close" class="z-10 fixed top-4 right-4 bg-white rounded-full p-2 text-black hover:bg-gray-200 transition-colors z-60">
         <X size={24} />
       </button>
       <button id="prevImage" class="fixed left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 text-black hover:bg-gray-200 transition-colors z-60">
@@ -59,7 +59,7 @@ const images = [m1, m2, m3, m4, m5, m6];
   const gallery = document.querySelector('.image-gallery');
   const modal = document.getElementById('imageModal');
   const modalImage = document.getElementById('modalImage') as HTMLImageElement;
-  const closeButton = document.getElementById('closeModal');
+  const closeButton = document.getElementById('close');
   const prevButton = document.getElementById('prevImage');
   const nextButton = document.getElementById('nextImage');
   const images = Array.from(document.querySelectorAll('.imgItem')) as HTMLImageElement[];
@@ -77,8 +77,11 @@ const images = [m1, m2, m3, m4, m5, m6];
   });
 
   closeButton?.addEventListener('click', closeModal);
+
   modal?.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
+    if (e.target === modal || e.target === closeButton) {
+      closeModal();
+    }
   });
 
   prevButton?.addEventListener('click', (e) => {
@@ -100,6 +103,7 @@ const images = [m1, m2, m3, m4, m5, m6];
   });
 
   function closeModal() {
+    console.log("close")
     modal?.classList.add('hidden');
     document.body.style.overflow = '';
   }
@@ -110,4 +114,3 @@ const images = [m1, m2, m3, m4, m5, m6];
     modalImage.alt = img.alt;
   }
 </script>
-

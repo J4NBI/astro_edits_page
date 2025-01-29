@@ -3,12 +3,12 @@ import { Play } from 'lucide-react';
 import { Image } from 'astro:assets';
 
 // Importiere die Vorschaubilder
-import doc0 from '@/assets/images/doc/00doc.webp';
-import doc1 from '@/assets/images/doc/01doc.webp';
-import doc2 from '@/assets/images/doc/02doc.webp';
-import doc3 from '@/assets/images/doc/03doc.webp';
-import doc4 from '@/assets/images/doc/04doc.webp';
-import doc5 from '@/assets/images/doc/05doc.webp';
+import com1 from '@/assets/images/com/01com.webp';
+import com2 from '@/assets/images/com/02com.webp';
+import com3 from '@/assets/images/com/03com.webp';
+import com4 from '@/assets/images/com/04com.webp';
+import com5 from '@/assets/images/com/05com.webp';
+import com6 from '@/assets/images/com/06com.webp';
 
 // Helper function to extract YouTube video ID
 function getYouTubeId(url: string) {
@@ -20,43 +20,44 @@ function getYouTubeId(url: string) {
 // Array der Videos mit eigenen Vorschaubildern
 const videos = [
 { 
-    id: getYouTubeId('https://youtu.be/W6-F7dKbnHo'), 
-    title: 'MILLENNIALS',
-    thumbnail: doc0
+    id: getYouTubeId('https://youtu.be/3lSd9gwD-bM'), 
+    title: 'OBI  Mach es zu deinem Projekt!',
+    thumbnail: com4
   },
   { 
-    id: getYouTubeId('https://youtu.be/ASR5cZoZlFA'), 
-    title: 'Die neuen Kinder von Golzow',
-    thumbnail: doc1
+    id: getYouTubeId('https://youtu.be/tEipssYoAc4'), 
+    title: 'Mercedes Citan',
+    thumbnail: com2
   },
   { 
-    id: getYouTubeId('https://youtu.be/M6SXdjN0RRA'), 
-    title: 'Lolas Lieder',
-    thumbnail: doc2
+    id: getYouTubeId('https://youtu.be/ZYHGHuGoFZQ'), 
+    title: 'juice plus+',
+    thumbnail: com1
   },
   { 
-    id: getYouTubeId('https://youtu.be/Us43jPscEIc'), 
-    title: 'Wie wir uns trauen',
-    thumbnail: doc3
+    id: getYouTubeId('https://youtu.be/bcqlxx_dD8A'), 
+    title: 'CEDEO FACTORY',
+    thumbnail: com3
+  },
+  
+  { 
+    id: getYouTubeId('https://youtu.be/q1dBDap_NuE'), 
+    title: 'REVIEW',
+    thumbnail: com5
   },
   { 
-    id: getYouTubeId('https://youtu.be/3NRTLenuUKc'), 
-    title: 'Bintou',
-    thumbnail: doc4
-  },
-  { 
-    id: getYouTubeId('https://youtu.be/CD_IjuLsR8k'), 
-    title: 'META',
-    thumbnail: doc5
+    id: getYouTubeId('https://youtu.be/-V4tblVimXY'), 
+    title: 'Swisscom',
+    thumbnail: com6
   }
 ];
 ---
 
-<div class="movie-gallery">
+<div class="movie-gallery-2">
   <div class="grid md:grid-cols-2 gap-4">
     {videos.map((video) => (
-      <div class="video-item relative cursor-pointer group" data-video-id={video.id}>
-        <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden">
+      <div class="video-item-2 relative cursor-pointer group w-30" data-video-id={video.id}>
+        <div class="aspect-w-16 bg-gray-100 rounded-lg overflow-hidden">
           <Image 
             src={video.thumbnail || "/placeholder.svg"}
             alt={`Vorschaubild für ${video.title}`}
@@ -75,17 +76,17 @@ const videos = [
     ))}
   </div>
 
-  <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center hidden z-50">
+  <div id="videoModal-2" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center hidden z-50">
     <div class="relative w-full max-w-4xl mx-4">
-      <button id="closeModal" class="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors">
+      <button id="closeModal-2" class="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors">
         <span class="sr-only">Video schließen</span>
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
-      <div class="aspect-w-16 aspect-h-9">
+      <div class="aspect-w-16">
         <iframe 
-          id="videoFrame" 
+          id="videoFrame-2" 
           class="w-full h-full rounded-lg"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
           allowfullscreen
@@ -98,6 +99,7 @@ const videos = [
 <style>
   .aspect-w-16 {
     position: relative;
+    width: 100%;
     padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
   }
   
@@ -113,14 +115,14 @@ const videos = [
 </style>
 
 <script>
-  const gallery = document.querySelector('.movie-gallery');
-  const modal = document.getElementById('videoModal');
-  const videoFrame = document.getElementById('videoFrame') as HTMLIFrameElement;
-  const closeButton = document.getElementById('closeModal');
+  const gallery = document.querySelector('.movie-gallery-2');
+  const modal = document.getElementById('videoModal-2');
+  const videoFrame = document.getElementById('videoFrame-2') as HTMLIFrameElement;
+  const closeButton = document.getElementById('closeModal-2');
 
   gallery?.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
-    const videoItem = target.closest('.video-item');
+    const videoItem = target.closest('.video-item-2');
     if (videoItem) {
       const videoId = videoItem.getAttribute('data-video-id');
       if (videoId) {
@@ -146,4 +148,3 @@ const videos = [
     videoFrame.src = '';
   }
 </script>
-
