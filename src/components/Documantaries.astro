@@ -1,0 +1,114 @@
+---
+import { Play } from 'lucide-react';
+
+// Helper function to extract YouTube video ID from various URL formats
+function getYouTubeId(url: string) {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : url;
+}
+
+// Array of YouTube video URLs and their titles
+const videos = [
+  { id: getYouTubeId('https://youtu.be/ASR5cZoZlFA'), title: 'Die neuen Kinder von Golzow' },
+  { id: getYouTubeId('https://youtu.be/M6SXdjN0RRA'), title: 'Lolas Lieder' },
+  { id: getYouTubeId('https://youtu.be/Us43jPscEIc'), title: 'Wie wir uns trauen' },
+  { id: getYouTubeId('https://youtu.be/3NRTLenuUKc'), title: 'Bintou' },
+  { id: getYouTubeId('https://youtu.be/CD_IjuLsR8k'), title: 'META' }
+];
+---
+
+
+<div class="movie-gallery">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4">
+    {videos.map((video) => (
+      <div class="video-item relative cursor-pointer group">
+        <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden">
+          <img 
+            src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
+            onerror="this.onerror=null; this.src=`https://img.youtube.com/vi/${video.id}/0.jpg`;"
+            alt={`Thumbnail for ${video.title}`}
+            class="w-full h-full object-cover transition-transform group-hover:scale-105"
+          />
+          <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all flex items-center justify-center">
+            <Play size={48} class="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+          </div>
+        </div>
+        <p class="mt-2 text-center font-semibold line-clamp-2">{video.title}</p>
+      </div>
+    ))}
+  </div>
+
+  <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center hidden z-50">
+    <div class="relative w-full max-w-4xl mx-4">
+      <button id="closeModal" class="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors">
+        <span class="sr-only">Close video</span>
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <div class="aspect-w-16 aspect-h-9">
+        <iframe 
+          id="videoFrame" 
+          class="w-full h-full rounded-lg"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .aspect-w-16 {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  }
+  
+  .aspect-w-16 > * {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<script>
+  const gallery = document.querySelector('.movie-gallery');
+  const modal = document.getElementById('videoModal');
+  const videoFrame = document.getElementById('videoFrame') as HTMLIFrameElement;
+  const closeButton = document.getElementById('closeModal');
+
+  gallery?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const videoItem = target.closest('.video-item');
+    if (videoItem) {
+      const img = videoItem.querySelector('img');
+      const videoId = img?.src.split('/')[4]; // Extract ID from thumbnail URL
+      if (videoId) {
+        videoFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+        modal?.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+  });
+
+  closeButton?.addEventListener('click', closeModal);
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  function closeModal() {
+    modal?.classList.add('hidden');
+    document.body.style.overflow = '';
+    videoFrame.src = '';
+  }
+</script>
+

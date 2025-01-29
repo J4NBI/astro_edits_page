@@ -1,0 +1,94 @@
+---
+// Import the individual tab components
+import Home from "./Home.astro"
+import Documentaries from "./Documantaries.astro"
+import Movies from "./Movies.astro"
+import { Image } from "astro:assets"
+import logo from '../assets/images/logo.png'
+---
+
+<div class="tab-container mt-8">
+  <div class="tab-buttons items-center flex flex-col md:flex-row justify-between my-8">
+    <Image class="mx-8 size-10 my-auto mb-8 md:mb-0" src={logo} alt="Home" />
+    <button class="tab-button active" data-tab="1">Home</button>
+    <button class="tab-button" data-tab="2">Documentaries</button>
+    <button class="tab-button" data-tab="3">Movies</button>
+    <button class="tab-button" data-tab="4">Commercials</button>
+  </div>
+  
+  <div class="tab-content">
+    <div class="tab-pane active" data-tab="1">
+      <Home />
+    </div>
+    <div class="tab-pane" data-tab="2">
+      <Documentaries />
+    </div>
+    <div class="tab-pane" data-tab="3">
+      <Movies />
+    </div>
+  </div>
+</div>
+
+<style>
+  .tab-container {
+    font-family: Arial, sans-serif;
+    max-width: clamp(2rem, 80%, 900px);
+    margin: 0 auto;
+  }
+  .tab-buttons {
+    display: flex;
+    
+    width: 100%;
+  }
+  .tab-button {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 200px;
+  }
+  .tab-button.active {
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border: none;
+  }
+  .tab-content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  .tab-pane {
+    display: none;
+    padding: 2rem;
+  }
+  .tab-pane.active {
+    display: block;
+  }
+</style>
+
+<script>
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabPanes = document.querySelectorAll('.tab-pane');
+
+  // Set the default active tab
+  tabButtons[0].classList.add('active');
+  tabPanes[0].classList.add('active');
+
+  tabButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      const tabId = button.getAttribute('data-tab');
+      
+      // Remove active class from all tab buttons and panes
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabPanes.forEach(pane => pane.classList.remove('active'));
+      
+      // Add active class to the selected tab button and pane
+      button.classList.add('active');
+      tabPanes[index].classList.add('active');
+    });
+  });
+</script>
+

@@ -1,0 +1,113 @@
+---
+import { Image } from 'astro:assets';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import m1 from '@/assets/images/m1.jpg';
+import m2 from '@/assets/images/m2.jpg';
+import m3 from '@/assets/images/m3.jpg';
+import m4 from '@/assets/images/m4.jpg';
+import m5 from '@/assets/images/m5.jpg';
+import m6 from '@/assets/images/m6.jpg';
+
+const images = [m1, m2, m3, m4, m5, m6];
+---
+
+<div class="image-gallery">
+  <div class="flex gap-2 flex-wrap items-center justify-center">
+    {images.map((img, index) => (
+      <Image 
+        class="imgItem w-sm size-28 h-full cursor-pointer transition-transform hover:scale-105" 
+        src={img || "/placeholder.svg"} 
+        alt={`movie poster ${index + 1}`}
+        data-index={index}
+      />
+    ))}
+  </div>
+
+  <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 hidden z-50">
+    <div class="relative w-full h-full flex items-center justify-center">
+      <button id="closeModal" class="fixed top-4 right-4 bg-white rounded-full p-2 text-black hover:bg-gray-200 transition-colors z-60">
+        <X size={24} />
+      </button>
+      <button id="prevImage" class="fixed left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 text-black hover:bg-gray-200 transition-colors z-60">
+        <ChevronLeft size={24} />
+      </button>
+      <button id="nextImage" class="fixed right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 text-black hover:bg-gray-200 transition-colors z-60">
+        <ChevronRight size={24} />
+      </button>
+      <div class="max-w-[90vw] max-h-[90vh]">
+        <Image id="modalImage" src={m1 || "/placeholder.svg"} alt="Enlarged movie poster" class="max-w-full max-h-full object-contain" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .image-gallery {
+    position: relative;
+  }
+
+  #imageModal {
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  #modalImage {
+    transition: transform 0.3s ease-in-out;
+  }
+</style>
+
+<script>
+  const gallery = document.querySelector('.image-gallery');
+  const modal = document.getElementById('imageModal');
+  const modalImage = document.getElementById('modalImage') as HTMLImageElement;
+  const closeButton = document.getElementById('closeModal');
+  const prevButton = document.getElementById('prevImage');
+  const nextButton = document.getElementById('nextImage');
+  const images = Array.from(document.querySelectorAll('.imgItem')) as HTMLImageElement[];
+  let currentIndex = 0;
+
+  gallery?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (target.classList.contains('imgItem')) {
+      const img = target as HTMLImageElement;
+      currentIndex = parseInt(img.dataset.index || '0', 10);
+      updateModalImage();
+      modal?.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+  });
+
+  closeButton?.addEventListener('click', closeModal);
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  prevButton?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateModalImage();
+  });
+
+  nextButton?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    currentIndex = (currentIndex + 1) % images.length;
+    updateModalImage();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft') prevButton?.click();
+    if (e.key === 'ArrowRight') nextButton?.click();
+  });
+
+  function closeModal() {
+    modal?.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  function updateModalImage() {
+    const img = images[currentIndex];
+    modalImage.src = img.src;
+    modalImage.alt = img.alt;
+  }
+</script>
+
