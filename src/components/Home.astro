@@ -1,5 +1,35 @@
-<p class="text-md leading-8 ">Jan is a Berlin based Editor originally from Cologne. Being a film and video enthusiast from an early age on, he spent his childhood learning about films and of course making them as well. It didn’t take long for him to take over the course and he started teaching children and young adults alike.
+---
+import { motion } from "motion/react";
+---
 
-  Naturally Jan started an apprenticeship in the media business and was hired as head of editing at a reputable agency learning about the ins and outs of the biz and gathering experience.
-  
-  Not stopping there, Jan wanted to deepen his knowledge and learn more so he went off to start studying editing and sound at one of Germany’s best universities for film. These days he works on global commercials that go viral, award winning and nominated feature films and critically acclaimed documentaries.</p>
+<motion.div
+  client:load
+  initial={{ opacity: 0, scale: 0.5 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{
+    duration: 0.8,
+    delay: 0.5,
+    ease: [0, 0.71, 0.2, 1.01],
+  }}
+>
+  <p class="text-md leading-6 mb-4">
+    Hallo ich bin Jan, ein Cutter aus Berlin. Schon als Kind besuchte ich den Videokurs in
+    den kreativen Werkwochen in Aachen und konnte dort früh Erfahrungen im
+    Filmbereich sammeln. Später leitete ich selber den Videokurs und erarbeitete
+    mit Kindern und Jugendlichen Kurzfilmprojekte.
+  </p>
+
+  <p class="text-md leading-6 mb-4">
+    Nach meinem Fachabitur in Sozialpadagogik absolvierte ich die
+    Mediengestalter Ausbildung 2008 in Köln. Nach Abschluss der Ausbildung wurde
+    ich von der Firma Capture MM in Düsseldorf als Abteilungsleiter im Bereich
+    Schnitt übernommen.
+  </p>
+
+  <p class="text-md leading-6">
+    Ich entschloss mich 2009 für ein Studium, um noch weitere Erfahrungen zu
+    sammeln. 2014 erhielt ich das Diplom in Montage/Schnitt an der Filmakademie
+    in Baden- Württemberg. Während des Studiums und bis heute arbeite ich als
+    freier Editor.
+  </p>
+</motion.div>

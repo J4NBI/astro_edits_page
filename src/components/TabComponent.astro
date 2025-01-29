@@ -6,32 +6,103 @@ import Movies from "./Movies.astro"
 import Commercials from "./Commercials.astro"
 import { Image } from "astro:assets"
 import logo from '../assets/images/logo.png'
+import { motion } from "motion/react"
+
 ---
 
-<div class="tab-container mt-8">
-  <div class="tab-buttons items-center flex flex-col md:flex-row justify-between my-8">
-    <Image class="mx-8 size-10 my-auto mb-8 md:mb-0" src={logo} alt="Home" />
-    <button class="tab-button active" data-tab="1">Home</button>
-    <button class="tab-button" data-tab="2">Documentaries</button>
-    <button class="tab-button" data-tab="3">Movies</button>
-    <button class="tab-button" data-tab="4">Commercials</button>
-  </div>
+<motion.div
+client:visible
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+                duration: 0.8,
+                delay: 0,
+                ease: [0, 0.71, 0.2, 1.01],
+            }}
+>
+  <div  class="tab-container mt-8">
+    <div class="tab-buttons items-center flex flex-col md:flex-row justify-between my-8">
+      <motion.div
+      client:visible
+              initial={{ opacity: 0, scale: 0}}
+              animate={{ opacity: 1, scale:1}}
+              transition={{
+                  duration: 0.8,
+                  delay: 1 ,
+                  ease: [0, 0.71, 0.2, 1.01],
+              }}
+      >
+        <Image class="mx-8 size-10 my-auto mb-8 md:mb-0" src={logo} alt="Home" />
+      </motion.div>
+      <motion.div
+      client:load
+              initial={{ opacity: 0, y: -100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                  duration: 0.8,
+                  delay: 0.5,
+                  ease: [0, 0.71, 0.2, 1.01],
+              }}
+      >
+        <button class="tab-button active" data-tab="1">Home</button>
+      </motion.div>
+      <motion.div
+      client:load
+              initial={{ opacity: 0, y: -100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                  duration: 0.8,
+                  delay: 0.6,
+                  ease: [0, 0.71, 0.2, 1.01],
+              }}
+      >
+        <button class="tab-button" data-tab="2">Documentaries</button>
+      </motion.div>
+      <motion.div
+      client:load
+              initial={{ opacity: 0, y: -100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                  duration: 0.8,
+                  delay: 0.7,
+                  ease: [0, 0.71, 0.2, 1.01],
+              }}
+      >
+        <button class="tab-button" data-tab="3">Movies</button>
+      </motion.div>
+      <motion.div
+      client:load
+              initial={{ opacity: 0, y: -100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                  duration: 0.8,
+                  delay: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+              }}
+      >
+        <button class="tab-button" data-tab="4">Commercials</button>
+      </motion.div>
   
-  <div class="tab-content">
-    <div class="tab-pane active" data-tab="1">
-      <Home />
+  
+  
     </div>
-    <div class="tab-pane" data-tab="2">
-      <Documentaries />
-    </div>
-    <div class="tab-pane" data-tab="3">
-      <Movies />
-    </div>
-    <div class="tab-pane" data-tab="3">
-      <Commercials />
+  
+    <div class="tab-content">
+      <div class="tab-pane active" data-tab="1">
+        <Home />
+      </div>
+      <div class="tab-pane" data-tab="2">
+        <Documentaries />
+      </div>
+      <div class="tab-pane" data-tab="3">
+        <Movies />
+      </div>
+      <div class="tab-pane" data-tab="3">
+        <Commercials />
+      </div>
     </div>
   </div>
-</div>
+</motion.div>
 
 <style>
   .tab-container {
